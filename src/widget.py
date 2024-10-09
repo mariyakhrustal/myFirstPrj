@@ -3,11 +3,12 @@ from src.masks import get_mask_account, get_mask_card_number
 
 def mask_account_card(card_info: str) -> str:
     """Функция обрабатывает информацию о картах и счетах"""
-    if len(card_info.split()[-1]) == 16:
-        card_number_1 = get_mask_card_number(card_info.split()[-1])
+    original_number = card_info.split()[-1]
+    if len(original_number) == 16:
+        card_number_1 = get_mask_card_number(original_number)
         result = f"{card_info[:-16]}{card_number_1}"
-    elif len(card_info.split()[-1]) == 20:
-        card_number_2 = get_mask_account(card_info.split()[-1])
+    elif len(original_number) == 20:
+        card_number_2 = get_mask_account(original_number)
         result = f"{card_info[:-20]}{card_number_2}"
     return result
 

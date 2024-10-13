@@ -1,4 +1,4 @@
-from src.masks import get_mask_account, get_mask_card_number
+from masks import get_mask_card_number, get_mask_account
 
 
 def mask_account_card(card_info: str) -> str:
@@ -14,7 +14,7 @@ def mask_account_card(card_info: str) -> str:
 
 
 def get_date(date_1: str) -> str:
-    """Функция возвращает строку с датой в формате 'ДД.ММ.ГГГГ'"""
-    date_2, _ = date_1.split("T")
-    year, month, day = date_2.split("-")
+    """ Функция возвращает строку с датой в формате 'ДД.ММ.ГГГГ' """
+    date_2, _ = date_1.split('T')
+    year, month, day = date_2.split('-')
     return f'"{day}.{month}.{year}"'

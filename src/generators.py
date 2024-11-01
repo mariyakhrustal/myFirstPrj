@@ -96,12 +96,12 @@ def transaction_descriptions(transactions_list: List[Dict[str, Any]]) -> Generat
 #             break
 
 
-def card_number_generator(start: int, end: int) -> Generator:
+def card_number_generator(start: int, stop: int) -> Generator:
     """
     Функция выдает номера банковских карт в формате
     XXXX XXXX XXXX XXXX, где X — цифра номера карты
     """
-    for number in range(start, end):
+    for number in range(start, stop):
         card = str(number)
         while len(card) < 16:
             card = "0" + card

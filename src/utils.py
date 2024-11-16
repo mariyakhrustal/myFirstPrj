@@ -13,8 +13,6 @@ def get_operations_data(path: str) -> list:
                     return []
             except json.JSONDecodeError:
                 return []
-            except ValueError:
-                return []
     except FileNotFoundError:
         return []
 

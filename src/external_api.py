@@ -30,8 +30,6 @@ def get_conversion(transaction: dict) -> float:
                     data = response.json()
                     if "result" in data:
                         return round(float(data["result"]), 2)
-                    else:
-                        print(f"Ошибка при получении данных: {data}")
                 else:
                     print(f"Ошибка API: {response.status_code}")
         return 0.0
@@ -40,7 +38,7 @@ def get_conversion(transaction: dict) -> float:
         return 0.0
 
 
-# with open("../data/operations.json", "r", encoding="utf-8") as file:
+# with open("data/operations.json", "r", encoding="utf-8") as file:
 #     operations = json.load(file)
 #
 # for i in operations:

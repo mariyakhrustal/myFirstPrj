@@ -4,7 +4,7 @@ import json
 def get_operations_data(path: str) -> list:
     """Получение списков транзакций"""
     try:
-        with open(path, 'r', encoding='utf-8') as operations_file:
+        with open(path, "r", encoding="utf-8") as operations_file:
             try:
                 operations = json.load(operations_file)
                 if isinstance(operations, list):
@@ -13,11 +13,9 @@ def get_operations_data(path: str) -> list:
                     return []
             except json.JSONDecodeError:
                 return []
-            except ValueError:
-                return []
     except FileNotFoundError:
         return []
 
 
-if __name__ == '__main__':
-    print(get_operations_data('../data/operations.json'))
+# if __name__ == '__main__':
+#     print(get_operations_data('../data/operations.json'))

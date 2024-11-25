@@ -3,16 +3,22 @@ import pandas as pd
 
 def get_csv_transacts(path: str) -> list[dict]:
     """Get transactions from csv"""
-    df = pd.read_csv(path)
-    transacts_data = df.to_dict(orient="records")
-    return transacts_data
+    try:
+        df = pd.read_csv(path)
+        transacts_data = df.to_dict(orient="records")
+        return transacts_data
+    except FileNotFoundError:
+        return []
 
 
 def get_excel_transacts(path: str) -> list[dict]:
     """Get transactions from excel"""
-    df = pd.read_excel(path)
-    transacts_data = df.to_dict(orient="records")
-    return transacts_data
+    try:
+        df = pd.read_excel(path)
+        transacts_data = df.to_dict(orient="records")
+        return transacts_data
+    except FileNotFoundError:
+        return []
 
 
 # if __name__ == "__main__":

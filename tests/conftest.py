@@ -1,5 +1,7 @@
-from typing import Any, Dict, List
+from typing import Any, Dict, Generator, List
+from unittest.mock import patch
 
+import pandas as pd
 import pytest
 
 
@@ -100,3 +102,38 @@ def transactions() -> List[Dict[str, Any]]:
             "to": "Счет 14211924144426031657",
         },
     ]
+
+
+@pytest.fixture
+def mock_data_csv_excel() -> list[dict[str, Any]]:
+    """Fixture returns prepared data for test_csv_excel_reader.py"""
+    return [
+        {
+            "id": 939719570,
+            "state": "EXECUTED",
+            "date": "2018-06-30T02:08:58.425572",
+            "operationAmount": {"amount": "9824.07", "currency": {"name": "USD", "code": "USD"}},
+        },
+        {
+            "id": 873106923,
+            "state": "EXECUTED",
+            "date": "2019-03-23T01:09:46.296404",
+            "operationAmount": {"amount": "43318.34", "currency": {"name": "руб.", "code": "RUB"}},
+        },
+    ]
+
+
+@pytest.fixture
+def mock_read_csv(mock_data_csv_excel: list[dict[str, Any]]) -> Generator:
+    """Fixture for mocking read_csv"""
+    with patch("pandas.read_csv") as mock:
+        mock.return_value = pd.DataFrame(mock_data_csv_excel)
+        yield mock
+
+
+@pytest.fixture
+def mock_read_excel(mock_data_csv_excel: list[dict[str, Any]]) -> Generator:
+    """Fixture for mocking read_excel"""
+    with patch("pandas.read_excel") as mock:
+        mock.return_value = pd.DataFrame(mock_data_csv_excel)
+        yield mock

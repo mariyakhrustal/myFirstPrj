@@ -1,4 +1,4 @@
-from src.sorted import count_certain_transacts, search_by_string
+from src.sorting_funcs import count_certain_transacts, search_by_string
 
 
 def test_search_by_string_found(transactions: list[dict]) -> None:

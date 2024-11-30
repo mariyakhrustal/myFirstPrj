@@ -35,7 +35,3 @@ def get_operations_data(path: str) -> list:
     except FileNotFoundError as e:
         logger.error(f"Файл не найден: {e}")
         return []
-
-
-# if __name__ == '__main__':
-#     print(get_operations_data('../data/operations.json'))

@@ -81,7 +81,12 @@ def main() -> None:
             break
         print(wrong_output)
     if is_rub_input == "да":
-        rub_filtered_data = [transact for transact in sort_filtered_data if transact["currency_code"] == "RUB"]
+        if user_input == "1":
+            rub_filtered_data = [
+                transact for transact in sort_filtered_data if transact["operationAmount"]["currency"]["code"] == "RUB"
+            ]
+        else:
+            rub_filtered_data = [transact for transact in sort_filtered_data if transact["currency_code"] == "RUB"]
     elif is_rub_input == "нет":
         rub_filtered_data = sort_filtered_data
     # Фильтрация по определённому слову в описании
@@ -103,9 +108,13 @@ def main() -> None:
         for transaction in word_filtered_data:
             str_date = get_date(transaction["date"])
             description = transaction["description"]
-            if transaction["description"] == "Открытие вклада":
+            if user_input == "1":
+                summ = transaction["operationAmount"]["amount"]
+                currency = transaction["operationAmount"]["currency"]["code"]
+            else:
                 summ = transaction["amount"]
                 currency = transaction["currency_code"]
+            if transaction["description"] == "Открытие вклада":
                 print(
                     f"""{str_date} {description}
 Сумма: {summ} {currency}\n"""
@@ -113,12 +122,10 @@ def main() -> None:
             else:
                 from_whom = mask_account_card(transaction["from"])
                 to_whom = mask_account_card(transaction["to"])
-                summa_str = transaction["amount"]
-                currency_str = transaction["currency_code"]
                 print(
                     f"""{str_date} {description}
 {from_whom} -> {to_whom}
-Сумма: {summa_str} {currency_str}\n"""
+Сумма: {summ} {currency}\n"""
                 )
     else:
         print("Не найдено ни одной транзакции, подходящей под ваши условия фильтрации.")

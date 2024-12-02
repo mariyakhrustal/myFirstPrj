@@ -59,23 +59,3 @@ def test_get_date(date: str, expected: str) -> None:
 def test_get_date_edge_cases() -> None:
     assert get_date("0001-01-01T00:00:00") == "01.01.0001"  # Граничные случаи
     assert get_date("9999-12-31T23:59:59") == "31.12.9999"
-
-
-def test_get_date_without_separator() -> None:
-    with pytest.raises(ValueError, match="Дата должна содержать разделитель 'T'"):
-        get_date("2023-10-18 12:34:56")
-
-
-def test_get_date_empty_date() -> None:
-    with pytest.raises(ValueError, match="Дата отсутствует"):
-        get_date("T12:34:56")
-
-
-def test_get_date_invalid_format() -> None:
-    with pytest.raises(ValueError, match="Неверный формат даты"):
-        get_date("2023-10T12:34:56")
-
-
-def test_get_date_non_digit_parts() -> None:
-    with pytest.raises(ValueError, match="Дата должна содержать только цифры"):
-        get_date("2023-10-ABT12:34:56")

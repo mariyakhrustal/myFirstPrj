@@ -1,16 +1,17 @@
+from typing import Any
+
 from src.csv_excel_reader import get_csv_transacts, get_excel_transacts
 from src.processing import filter_by_state, sort_by_date
 from src.sorting_funcs import search_by_string
 from src.utils import get_operations_data
 from src.widget import get_date, mask_account_card
 
-
 # Определяем переменную для некорректных вводов.
 wrong_output = "Введён некорректный ответ. Повторите ввод."
 
 
 # Программа приветствует пользователя.
-def get_gritting_data():
+def get_gritting_data() -> None:
     """Функциия для приветствия пользователя"""
     print(
         """
@@ -24,7 +25,7 @@ def get_gritting_data():
 
 
 # Пользователь выбирает файл для обработки транзакций.
-def get_transacts_source_data():
+def get_transacts_source_data() -> tuple[list[Any], str]:
     """Функциия для выбора источника транзакций"""
     while True:
         user_input = input("Введите число: ")
@@ -48,7 +49,7 @@ def get_transacts_source_data():
 
 
 # Пользователь выбирает статус интересующих его операций.
-def get_state_data(transact_list):
+def get_state_data(transact_list: list[dict[Any, Any]]) -> list[dict[Any, Any]]:
     """Функция для выбора статуса операций"""
     while True:
         print(
@@ -67,7 +68,7 @@ def get_state_data(transact_list):
 
 
 # Фильтрация по дате.
-def get_date_data(state_filtered_data):
+def get_date_data(state_filtered_data: list[dict[Any, Any]]) -> list[dict[Any, Any]]:
     """Функция для выбора фильтрации по дате"""
     while True:
         print("Отфильтровать операции по дате?")
@@ -93,7 +94,7 @@ def get_date_data(state_filtered_data):
 
 
 # Фильтрация по валюте транзакций
-def get_currency_data(sort_filtered_data, user_input):
+def get_currency_data(sort_filtered_data: list[dict], user_input: str) -> list[dict]:
     """Функция для выбора фильтрации по валюте"""
     while True:
         print("Выводить только рублёвые транзакции?")
@@ -114,7 +115,7 @@ def get_currency_data(sort_filtered_data, user_input):
 
 
 # Фильтрация по определённому слову в описании
-def get_filtered_by_word_data(rub_filtered_data):
+def get_filtered_by_word_data(rub_filtered_data: list[dict]) -> list[dict]:
     """Функция для выбора фильтрации по определенному слову"""
     while True:
         print("Отфильтровать список по определённому слову в описании?")
@@ -131,7 +132,7 @@ def get_filtered_by_word_data(rub_filtered_data):
 
 
 # Выводим итоговые данные
-def get_output_result_data(word_filtered_data, user_input):
+def get_output_result_data(word_filtered_data: list[dict], user_input: str) -> None:
     """Функция выводит итоговый результат"""
     total_transacts = len(word_filtered_data)
     if total_transacts > 0:

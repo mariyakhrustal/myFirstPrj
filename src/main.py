@@ -5,11 +5,13 @@ from src.utils import get_operations_data
 from src.widget import get_date, mask_account_card
 
 
-def main() -> None:
-    """Функция отвечает за основную логику проекта с пользователем и связывает функциональности между собой"""
-    # Определяем переменную для некорректных вводов.
-    wrong_output = "Введён некорректный ответ. Повторите ввод."
-    # Программа приветствует пользователя.
+# Определяем переменную для некорректных вводов.
+wrong_output = "Введён некорректный ответ. Повторите ввод."
+
+
+# Программа приветствует пользователя.
+def get_gritting_data():
+    """Функциия для приветствия пользователя"""
     print(
         """
 Привет! Добро пожаловать в программу работы с банковскими транзакциями!
@@ -19,7 +21,11 @@ def main() -> None:
 3. Получить информацию о транзакциях из XLSX-файла.
         """
     )
-    # Пользователь выбирает файл для обработки транзакций.
+
+
+# Пользователь выбирает файл для обработки транзакций.
+def get_transacts_source_data():
+    """Функциия для выбора источника транзакций"""
     while True:
         user_input = input("Введите число: ")
         if user_input in ("1", "2", "3"):
@@ -38,7 +44,12 @@ def main() -> None:
         transact_list = get_csv_transacts("../data/transactions_csv.csv")
     elif user_input == "3":
         transact_list = get_excel_transacts("../data/transactions_excel.xlsx")
-    # Пользователь выбирает статус интересующих его операций.
+    return transact_list, user_input
+
+
+# Пользователь выбирает статус интересующих его операций.
+def get_state_data(transact_list):
+    """Функция для выбора статуса операций"""
     while True:
         print(
             """
@@ -52,7 +63,12 @@ def main() -> None:
         print(wrong_output)
     state_filtered_data = filter_by_state(transact_list, status_input)
     print(f"Операции отфильтрованы по статусу {status_input}.")
-    # Фильтрация по дате.
+    return state_filtered_data
+
+
+# Фильтрация по дате.
+def get_date_data(state_filtered_data):
+    """Функция для выбора фильтрации по дате"""
     while True:
         print("Отфильтровать операции по дате?")
         date_input = input("Введите да/нет: ").lower()
@@ -73,7 +89,12 @@ def main() -> None:
         sort_filtered_data = sort_by_date(state_filtered_data, sort_choice)
     elif date_input == "нет":
         sort_filtered_data = state_filtered_data
-    # Фильтрация по валюте транзакций
+    return sort_filtered_data
+
+
+# Фильтрация по валюте транзакций
+def get_currency_data(sort_filtered_data, user_input):
+    """Функция для выбора фильтрации по валюте"""
     while True:
         print("Выводить только рублёвые транзакции?")
         is_rub_input = input("Введите да/нет: ").lower()
@@ -89,7 +110,12 @@ def main() -> None:
             rub_filtered_data = [transact for transact in sort_filtered_data if transact["currency_code"] == "RUB"]
     elif is_rub_input == "нет":
         rub_filtered_data = sort_filtered_data
-    # Фильтрация по определённому слову в описании
+    return rub_filtered_data
+
+
+# Фильтрация по определённому слову в описании
+def get_filtered_by_word_data(rub_filtered_data):
+    """Функция для выбора фильтрации по определенному слову"""
     while True:
         print("Отфильтровать список по определённому слову в описании?")
         str_choice_input = input("Введите да/нет: ").lower()
@@ -101,6 +127,12 @@ def main() -> None:
         word_filtered_data = search_by_string(rub_filtered_data, word_input)
     elif str_choice_input == "нет":
         word_filtered_data = rub_filtered_data
+    return word_filtered_data
+
+
+# Выводим итоговые данные
+def get_output_result_data(word_filtered_data, user_input):
+    """Функция выводит итоговый результат"""
     total_transacts = len(word_filtered_data)
     if total_transacts > 0:
         print("Распечатываю итоговый список транзакций...\n")
@@ -117,18 +149,37 @@ def main() -> None:
             if transaction["description"] == "Открытие вклада":
                 print(
                     f"""{str_date} {description}
-Сумма: {summ} {currency}\n"""
+    Сумма: {summ} {currency}\n"""
                 )
             else:
                 from_whom = mask_account_card(transaction["from"])
                 to_whom = mask_account_card(transaction["to"])
                 print(
                     f"""{str_date} {description}
-{from_whom} -> {to_whom}
-Сумма: {summ} {currency}\n"""
+    {from_whom} -> {to_whom}
+    Сумма: {summ} {currency}\n"""
                 )
     else:
         print("Не найдено ни одной транзакции, подходящей под ваши условия фильтрации.")
+
+
+# Запуск программы
+def main() -> None:
+    """Функция отвечает за основную логику проекта с пользователем и связывает функциональности между собой"""
+    # Приветствие пользователя
+    get_gritting_data()
+    # Получаем данные транзакций в зависимости от выбора пользователя
+    transact_list, user_input = get_transacts_source_data()
+    # Фильтруем транзакции по статусу
+    state_filtered_data = get_state_data(transact_list)
+    # Фильтруем транзакции по дате, если требуется
+    sort_filtered_data = get_date_data(state_filtered_data)
+    # Фильтруем транзакции по валюте (по рублю или нет)
+    rub_filtered_data = get_currency_data(sort_filtered_data, user_input)
+    # Фильтруем транзакции по слову в описании, если требуется
+    word_filtered_data = get_filtered_by_word_data(rub_filtered_data)
+    # Выводим итоговые данные
+    get_output_result_data(word_filtered_data, user_input)
 
 
 if __name__ == "__main__":

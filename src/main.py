@@ -31,8 +31,7 @@ def get_transacts_source_data() -> tuple[list[Any], str]:
         user_input = input("Введите число: ")
         if user_input in ("1", "2", "3"):
             break
-        else:
-            print(wrong_output)
+        print(wrong_output)
     menu = {
         "1": "Для обработки выбран JSON-файл.",
         "2": "Для обработки выбран CSV-файл.",
@@ -79,7 +78,7 @@ def get_date_data(state_filtered_data: list[dict[Any, Any]]) -> list[dict[Any, A
     if date_input == "да":
         while True:
             print("Отфильтровать по возрастанию или убыванию?")
-            sort_input = input("Введите: по возрастанию / по убыванию: ").lower()
+            sort_input = input("Введите по возрастанию / по убыванию: ").lower()
             if sort_input in ("по возрастанию", "по убыванию"):
                 break
             print(wrong_output)
@@ -184,4 +183,4 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    main()  # pragma: no cover

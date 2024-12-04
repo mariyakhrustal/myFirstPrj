@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from src.masks import get_mask_account, get_mask_card_number
 
 
@@ -20,17 +22,6 @@ def mask_account_card(card_info: str) -> str:
     return "Не содержит номер"
 
 
-def get_date(date_1: str) -> str:
+def get_date(original_date: str) -> str:
     """Функция возвращает строку с датой в формате 'ДД.ММ.ГГГГ'"""
-    if "T" not in date_1:
-        raise ValueError("Дата должна содержать разделитель 'T'")
-    date_2, _ = date_1.split("T")
-    if not date_2:
-        raise ValueError("Дата отсутствует")
-    parts = date_2.split("-")
-    if len(parts) != 3:
-        raise ValueError("Неверный формат даты")
-    year, month, day = parts
-    if not (year.isdigit() and month.isdigit() and day.isdigit()):
-        raise ValueError("Дата должна содержать только цифры")
-    return f"{day}.{month}.{year}"
+    return datetime.fromisoformat(original_date).strftime("%d.%m.%Y")

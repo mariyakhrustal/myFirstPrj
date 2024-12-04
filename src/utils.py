@@ -4,7 +4,7 @@ import os
 
 logs_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "logs")
 if not os.path.exists(logs_dir):
-    os.makedirs(logs_dir)
+    os.makedirs(logs_dir)  # pragma: no cover
 
 
 logger = logging.getLogger("utils")
@@ -35,7 +35,3 @@ def get_operations_data(path: str) -> list:
     except FileNotFoundError as e:
         logger.error(f"Файл не найден: {e}")
         return []
-
-
-# if __name__ == '__main__':
-#     print(get_operations_data('../data/operations.json'))

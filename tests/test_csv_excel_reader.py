@@ -8,7 +8,7 @@ def test_get_csv_transacts(mock_read_csv: MagicMock, mock_data_csv_excel: list[d
     """Test get csv data"""
     result = get_csv_transacts("mock_path.csv")
     assert result == mock_data_csv_excel
-    mock_read_csv.assert_called_once_with("mock_path.csv")
+    mock_read_csv.assert_called_once_with("mock_path.csv", sep=";", decimal=",", encoding="utf-8")
 
 
 def test_get_csv_transacts_wrong_path() -> None:
